@@ -1,0 +1,46 @@
+import java.io.*;
+import java.util.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class Main {
+    public static void main(String[] args) throws FileNotFoundException {
+        Map<String, List<ArrayList<String>>> maping = new HashMap<>();
+        Scanner reader = new Scanner(new FileInputStream("Cities.txt"));
+        List<ArrayList<String>> AllCities = new ArrayList<ArrayList<String>>();
+
+        while (reader.hasNextLine()){
+            String line = reader.nextLine();
+            ArrayList<String> citiesList = new ArrayList<>(Arrays.asList(line.split(",")));
+            AllCities.add(citiesList);
+            List<ArrayList<String>> valuesList;
+            if(maping.containsKey(citiesList.get(3))){
+                valuesList = maping.get(citiesList.get(3));
+                valuesList.add(citiesList);
+            }
+            else{
+                valuesList = new ArrayList<>();
+                valuesList.add(citiesList);
+                maping.put(citiesList.get(3), valuesList);
+            }
+
+        }
+        System.out.println("Cities Map: ");
+        System.out.println(maping);
+        String country = " POL";
+        List<ArrayList<String>> citiesSorted;
+        citiesSorted =  maping.get(country);
+        citiesSorted.sort(Comparator.comparing(l -> l.get(2)));
+        System.out.println("Sorted Cities: ");
+        System.out.println(citiesSorted);
+        System.out.println("Highest population: ");
+        System.out.println(citiesSorted.get(citiesSorted.size()-1).get(2));
+
+
+    }
+
+
+
+
+}
